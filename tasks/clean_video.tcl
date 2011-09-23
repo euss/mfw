@@ -8,7 +8,7 @@
 # License ("GPL") version 3, as published by the Free Software Foundation.
 #
     
-# Priority: 1300
+# Priority: 1400
 # Category: Video
 # Description: Clean unwanted icons from the XMB Video Category
     
@@ -18,6 +18,13 @@
 # Option --clean-video-editingvideo-mgmt: Remove "Video Editor & Uploader" icon from the XMB Video Category
 # Option --clean-video-netflix: Remove "Netflix" icon from the XMB Video Category
 # Option --clean-video-welcome: Remove "PlayStation Store" icon from the XMB Video Category
+
+# Type --clean-video-bddata-mgmt: boolean
+# Type --clean-video-dlna-scan: boolean
+# Type --clean-video-dlna-device: boolean
+# Type --clean-video-editingvideo-mgmt: boolean
+# Type --clean-video-netflix: boolean
+# Type --clean-video-welcome: boolean
 
 namespace eval ::clean_video {
 

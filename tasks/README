@@ -1,3 +1,43 @@
+
+==============================================================
+  .------.  .-------. .-----.   ..  .-.   .--------.      .--.
+ /_____   \/   _____//_____  \ /  \/   \ /_   _____/\    /   /
+  /   ____/\____  \  __(__  < /         \ /   __)\   \/\/   / 
+ /   /     /       \/        \   /\/\    Y   /    \        /  
+/___/     /________/_________/__/    \___|__/      \__/\__/   
+                                 PS3MFW tasks v0.2
+==============================================================
+
+Several exciting new tasks have been created. The most interesting one is a new privacy patch, which keeps PS3 from sending personally identifiable information to many configurable domain names: After jailbreak became available for PS3, reverse engineers discovered that the PS3 collects a multitude of personal information without your knowledge, such as such as your TV model, a list of all usb devices (including product IDs) you ever plugged into your PS3, usage statistics, which games and media you play and more.
+
+The Digital Millenium Copyright Act (DMCA) specifically allows for consumers to circumvent technological protection measures in order to protect their privacy. Even though there was little doubt concerning the legality of PS3MFW Builder before because it in itself does not circumvent any technological protection measures, this new feature makes using it inside the USA fully DMCA compliant.
+
+Additionally, several new customizations including a firmware version spoofer, a way to edit the look and sound of the boot sequence by inserting your own coldboot files, and a task to replace the default "Airbush" XMB theme. Now it can also create modified firmwares that can be installed on PS3s with broken Blu-Ray drives as well as create firmwares that can convert demo (kiosk/shop) units into regular retail PS3s! A bug that prevented USB storage devices from being shown under Game Data Utility was fixed.
+
+The new tasks can be found at www.git-hacks.com/ps3mfw
+
+--------------------------
+BREAKDOWN OF ALL NEW TASKS
+--------------------------
+
+- patch_privacy.tcl – PS3 collects a large amount of personal information while it’s operating. Additionally personal information is sent to many domain names when internet access is enabled (unrelated to PSN access). This task prevents PS3 from sending any data to the domain names you select.
+
+- broken_bluray.tcl – Allows you to remove Blu-Ray firmware installation so that the MFW can be installed without a working Blu-Ray drive. This is potentially dangerous if used on a PS3 with a working drive, and should only be used if the drive is broken.
+
+- spoof_version.tcl – Allows changing the firmware version the PS3 appears to be on, similar to the rebug spoofer.
+
+- change_coldboot_files.tcl – Advanced users only: Allows changing the sound played and image shown during the boot process. Caution: If improper files are used, this can cause a “brick”.
+
+- change_ssl_cer.tcl – Allows changing of SSL certificates.
+
+- change_theme.tcl – Can be used to replace the default "Airbrush" theme with another theme file (.p3t format).
+
+- patch_shop.tcl – Creates firmware to transform demo PS3s (the units used in stores) into full retail PS3s, without the need for service mode!
+
+---------
+0.1 Tasks
+---------
+
 tasks/patch_category_game.tcl    
 Add new icons to the XMB Game category
 Modifies dev_flash/vsh/resource/explore/xmb/category_game.xml file

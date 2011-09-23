@@ -8,12 +8,15 @@
 # License ("GPL") version 3, as published by the Free Software Foundation.
 #
 
-# Priority: 600
+# Priority: 200
 # Description: Add a custom message to the 'New Features' installation screen
 
 # Option --license-auto-add-features: Automatically generate the enabled features of PS3MFW
 # Option --license-features-message: Prefix message to the generated features list
 # Option --license-message: New Features message (Appears after the license agreement)
+# Type --license-auto-add-features: boolean
+# Type --license-features-message: string
+# Type --license-message: textarea
 
 namespace eval ::add_license_msg {
 

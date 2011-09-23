@@ -8,11 +8,14 @@
 # License ("GPL") version 3, as published by the Free Software Foundation.
 #
 
-# Priority: 400
+# Priority: 500
 # Description: Patch package installer
 
 # Option --allow-pseudoretail-pkg: Patch to allow installation of pseudo-retail packages
 # Option --allow-debug-pkg: Patch to allow installation of debug packages
+
+# Type --allow-pseudoretail-pkg: boolean
+# Type --allow-debug-pkg: boolean
 
 namespace eval ::patch_nas_plugin {
 

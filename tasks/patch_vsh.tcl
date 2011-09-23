@@ -8,10 +8,12 @@
 # License ("GPL") version 3, as published by the Free Software Foundation.
 #
 
-# Priority: 500
+# Priority: 700
 # Description: Patch Application launcher
 
 # Option --allow-unsigned-app: Patch to allow running of unsigned applications
+
+# Type --allow-unsigned-app: boolean
 
 namespace eval ::patch_vsh {
 
@@ -47,7 +49,7 @@ namespace eval ::patch_vsh {
 
             catch_die {::patch_elf $elf $search 20 $replace} "Unable to patch self [file tail $elf]"
 
-            log "WARNING: Running unsigned applications will only work if the kernel also supports this option"
-	}
+            log "WARNING: Running unsigned applications will only work if the kernel also supports this option" 1
+        }
     }
 }

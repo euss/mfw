@@ -8,7 +8,7 @@
 # License ("GPL") version 3, as published by the Free Software Foundation.
 #
     
-# Priority: 1500
+# Priority: 1700
 # Category: Network
 # Description: Clean unwanted icons from the XMB Network Category
     
@@ -17,6 +17,12 @@
 # Option --clean-network-kensaku: Remove "Internet Search" icon from the XMB Network Category
 # Option --clean-network-manual: Remove "Online Instruction Manuals" icon from the XMB Network Category
 # Option --clean-network-premo: Remove "Remote Play" icon from the XMB Network Category
+
+# Type --clean-network-browser: boolean
+# Type --clean-network-folding-at-home: boolean
+# Type --clean-network-kensaku: boolean
+# Type --clean-network-manual: boolean
+# Type --clean-network-premo: boolean
 
 namespace eval ::clean_network {
 

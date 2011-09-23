@@ -130,7 +130,6 @@ namespace eval ::xml {
 	    return [string map {
 		    "<" "&lt;"
 		    ">" "&gt;"
-		    "&" "&amp;"
 		    "\"" "&quot;"
 		    "\t" "&#x9;"
 		    "\r" "&#xd;"
@@ -358,3 +357,4 @@ namespace eval ::xml {
     }
 
 }
+

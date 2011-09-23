@@ -8,7 +8,7 @@
 # License ("GPL") version 3, as published by the Free Software Foundation.
 #
 
-# Priority: 1700
+# Priority: 1900
 # Category: Friends
 # Description: Clean unwanted icons from the XMB Friends Category
 
@@ -17,6 +17,11 @@
 # Option --clean-friends-message-box: Remove "Message Box" icon from the XMB Friends Category
 # Option --clean-friends-nas: Remove "My Profile" icon from the XMB Friends Category
 # Option --clean-friends-new-chat: Remove "New Chat" icon from the XMB Friends Category
+# Type --clean-friends-avcroom: boolean
+# Type --clean-friends-chat: boolean
+# Type --clean-friends-message-box: boolean
+# Type --clean-friends-nas: boolean
+# Type --clean-friends-new-chat: boolean
 
 namespace eval ::clean_friends {
 

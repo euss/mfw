@@ -9,129 +9,112 @@
 #
 
 proc ego {} {
-	puts "PS3MFW Creator v0.1"
-	puts "    Copyright (C) 2011 Project PS3MFW"
-	puts "    This program comes with ABSOLUTELY NO WARRANTY;"
-	puts "    This is free software, and you are welcome to redistribute it"
-	puts "    under certain conditions; see COPYING for details."
-	puts ""
-	puts "    Developed By :"
-	puts "    Anonymous Developers"
-	puts ""
+    puts "PS3MFW Creator v${::PS3MFW_VERSION}"
+    puts "    Copyright (C) 2011 Project PS3MFW"
+    puts "    This program comes with ABSOLUTELY NO WARRANTY;"
+    puts "    This is free software, and you are welcome to redistribute it"
+    puts "    under certain conditions; see COPYING for details."
+    puts ""
+    puts "    Developed By :"
+    puts "    Anonymous Developers"
+    puts ""
 }
 
 proc ego_gui {} {
-	log "PS3MFW Creator v0.1"
-	log "    Copyright (C) 2011 Project PS3MFW"
-	log "    This program comes with ABSOLUTELY NO WARRANTY;"
-	log "    This is free software, and you are welcome to redistribute it"
-	log "    under certain conditions; see COPYING for details."
-	log ""
-	log "    Developed By :"
-	log "    Anonymous Developers"
-	log ""
+    log "PS3MFW Creator v${::PS3MFW_VERSION}"
+    log "    Copyright (C) 2011 Project PS3MFW"
+    log "    This program comes with ABSOLUTELY NO WARRANTY;"
+    log "    This is free software, and you are welcome to redistribute it"
+    log "    under certain conditions; see COPYING for details."
+    log ""
+    log "    Developed By :"
+    log "    Anonymous Developers"
+    log ""
 }
 
-proc clean_up {  } {
-	log "Deleting output files"
-	catch_die {file delete -force -- $::CUSTOM_PUP_DIR $::ORIGINAL_PUP_DIR $::OUT_FILE} \
-	    "Could not cleanup output files"
+proc clean_up {} {
+    log "Deleting output files"
+    catch_die {file delete -force -- ${::CUSTOM_PUP_DIR} ${::ORIGINAL_PUP_DIR} ${::OUT_FILE}} \
+        "Could not cleanup output files"
 }
 
 proc unpack_source_pup {pup dest} {
-	log "Unpacking source PUP [file tail $pup]"
-	catch_die {pup_extract $pup $dest} "Error extracting PUP file [file tail $pup]"
+    log "Unpacking source PUP [file tail ${pup}]"
+    catch_die {pup_extract ${pup} ${dest}} "Error extracting PUP file [file tail ${pup}]"
 
-	# Check for license.txt for people using older version of ps3tools
-	set license_txt [file join $::CUSTOM_UPDATE_DIR license.txt]
-	if {![file exists $::CUSTOM_LICENSE_XML] && [file exists $license_txt]} {
-		set ::CUSTOM_LICENSE_XML $license_txt
-	}
+    # Check for license.txt for people using older version of ps3tools
+    set license_txt [file join ${::CUSTOM_UPDATE_DIR} license.txt]
+    if {![file exists ${::CUSTOM_LICENSE_XML}] && [file exists ${license_txt}]} {
+        set ::CUSTOM_LICENSE_XML ${license_txt}
+    }
 }
 
 proc pack_custom_pup {dir pup} {
-	global options
-
-	set build $options(--custom-pup-version)
-	if {$build == "" || ![string is integer $build]} {
-		log "Getting build version from [file tail $::IN_FILE]"
-		set build [get_build_version $::IN_FILE]
-		incr build
-		log "Found build version: $build"
-	}
-	# create pup
-	log "Packing Modified PUP [file tail $pup]"
-	catch_die {pup_create $dir $pup $build} "Error packing PUP file [file tail $pup]"
+    set build ${::PUP_BUILD}
+    set obuild [get_pup_build]
+    if {${build} == "" || ![string is integer ${build}] || ${build} == ${obuild}} {
+        set build ${obuild}
+        incr build
+    }
+    # create pup
+    log "Packing Modified PUP [file tail ${pup}]"
+    catch_die {pup_create ${dir} ${pup} $build} "Error packing PUP file [file tail ${pup}]"
 }
-
-proc change_version {prefix suffix {clear 0}} {
-	global options
-
-	if {$clear} {
-		set version ""
-	} else {
-		set fd [open [file join $::CUSTOM_VERSION_TXT] r]
-		set version [string trim [read $fd]]
-		close $fd
-	}
-
-	set fd [open [file join $::CUSTOM_VERSION_TXT] w]
-	puts $fd "${prefix}${version}${suffix}"
-	close $fd
-}
-
 
 proc build_mfw {input output tasks} {
-	global options
+    global options
 
-	set ::selected_tasks $tasks
+    set ::selected_tasks [sort_tasks ${tasks}]
 
-	# print out ego info
-	ego_gui
+    # print out ego info
+    ego_gui
 
-	if {$input == "" || $output == ""} {
-		die "Must specify an input and output file"
-	}
-	if {![file exists $input]} {
-		die "Input file does not exist"
-	}
+    if {${input} == "" || ${output} == ""} {
+        die "Must specify an input and output file"
+    }
+    if {![file exists ${input}]} {
+        die "Input file does not exist"
+    }
 
-	log "Selected tasks : $tasks"
-	debug "HOME=[set ::env(HOME)]\nPATH=[set ::env(PATH)]\n"
+    log "Selected tasks : ${::selected_tasks}"
 
-	clean_up
+    if {[info exists ::env(HOME)]} {
+        debug "HOME=$::env(HOME)"
+    }
+    if {[info exists ::env(USERPROFILE)]} {
+        debug "USERPROFILE=$::env(USERPROFILE)"
+    }
+    if {[info exists ::env(PATH)]} {
+        debug "PATH=$::env(PATH)"
+    }
 
-	# PREPARE PS3UPDAT.PUP for modification
-	unpack_source_pup $input $::CUSTOM_PUP_DIR
+    clean_up
 
-	extract_tar $::CUSTOM_UPDATE_TAR $::CUSTOM_UPDATE_DIR
+    # PREPARE PS3UPDAT.PUP for modification
+    unpack_source_pup ${input} ${::CUSTOM_PUP_DIR}
 
-	# copy original PUP to working dir
-	copy_file $::CUSTOM_PUP_DIR $::ORIGINAL_PUP_DIR
+    extract_tar ${::CUSTOM_UPDATE_TAR} ${::CUSTOM_UPDATE_DIR}
 
-	log "Unpacking all dev_flash files"
-	unpkg_devflash_all $::CUSTOM_DEVFLASH_DIR
+    # copy original PUP to working dir
+    copy_file ${::CUSTOM_PUP_DIR} ${::ORIGINAL_PUP_DIR}
 
-	# Execute tasks
-	foreach task $tasks {
-	    log "******** Running task $task **********"
-	    eval [string map {- _} ${task}::main]
-	}
+    log "Unpacking all dev_flash files"
+    unpkg_devflash_all ${::CUSTOM_DEVFLASH_DIR}
 
-	# RECREATE PS3UPDAT.PUP
-	file delete -force $::CUSTOM_DEVFLASH_DIR
-	set files [lsort [glob -nocomplain -tails -directory $::CUSTOM_UPDATE_DIR *.pkg]]
-	eval lappend files [lsort [glob -nocomplain -tails -directory $::CUSTOM_UPDATE_DIR *.img]]
-	eval lappend files [lsort [glob -nocomplain -tails -directory $::CUSTOM_UPDATE_DIR dev_flash3_*]]
-	eval lappend files [lsort [glob -nocomplain -tails -directory $::CUSTOM_UPDATE_DIR dev_flash_*]]
- 	create_tar $::CUSTOM_UPDATE_TAR  $::CUSTOM_UPDATE_DIR $files
+    # Execute tasks
+    foreach task ${::selected_tasks} {
+        log "******** Running task $task **********"
+        eval [string map {- _} ${task}::main]
+    }
+    log "******** Completed tasks **********"
 
-	# Change version.txt value
-	if {$options(--custom-version-string) != ""} {
-		change_version $options(--custom-version-string) "" 1
-	} else {
-		change_version $options(--version-prefix) $options(--version-suffix)
-	}
+    # RECREATE PS3UPDAT.PUP
+    file delete -force ${::CUSTOM_DEVFLASH_DIR}
+    set files [lsort [glob -nocomplain -tails -directory ${::CUSTOM_UPDATE_DIR} *.pkg]]
+    eval lappend files [lsort [glob -nocomplain -tails -directory ${::CUSTOM_UPDATE_DIR} *.img]]
+    eval lappend files [lsort [glob -nocomplain -tails -directory ${::CUSTOM_UPDATE_DIR} dev_flash3_*]]
+    eval lappend files [lsort [glob -nocomplain -tails -directory ${::CUSTOM_UPDATE_DIR} dev_flash_*]]
+    create_tar ${::CUSTOM_UPDATE_TAR}  ${::CUSTOM_UPDATE_DIR} ${files}
 
-	pack_custom_pup $::CUSTOM_PUP_DIR $::OUT_FILE
+    pack_custom_pup ${::CUSTOM_PUP_DIR} ${::OUT_FILE}
 }

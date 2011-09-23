@@ -8,7 +8,7 @@
 # License ("GPL") version 3, as published by the Free Software Foundation.
 #
     
-# Priority: 1600
+# Priority: 1800
 # Category: PlayStation Network
 # Description: Clean unwanted icons from the XMB PlayStation Network Category
     
@@ -16,6 +16,11 @@
 # Option --clean-psn-home: Remove "PlayStation Home" icon from the XMB PlayStation Network Category
 # Option --clean-psn-regist: Remove "Sign In" icon from the XMB PlayStation Network Category
 # Option --clean-psn-welcome: Remove "PlayStation Store" icon from the XMB PlayStation Network Category
+
+# Type --clean-psn-commerce-new: boolean
+# Type --clean-psn-home: boolean
+# Type --clean-psn-regist: boolean
+# Type --clean-psn-welcome: boolean
 
 namespace eval ::clean_psn {
 

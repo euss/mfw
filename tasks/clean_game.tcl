@@ -8,7 +8,7 @@
 # License ("GPL") version 3, as published by the Free Software Foundation.
 #
     
-# Priority: 1400
+# Priority: 1600
 # Category: Game
 # Description: Clean unwanted icons from the XMB Game Category
     
@@ -19,6 +19,14 @@
 # Option --clean-game-sdps3: Remove "Saved Data Utility (PS3)" icon from the XMB Game Category
 # Option --clean-game-sdpsp: Remove "Saved Data Utility (minis)" icon from the XMB Game Category
 # Option --clean-game-trophy: Remove "Trophy Collection" icon from the XMB Game Category
+
+# Type --clean-game-gamedata: boolean
+# Type --clean-game-mcutility: boolean
+# Type --clean-game-minis-manual: boolean
+# Type --clean-game-welcome: boolean
+# Type --clean-game-sdps3: boolean
+# Type --clean-game-sdpsp: boolean
+# Type --clean-game-trophy: boolean
 
 namespace eval ::clean_game {
 

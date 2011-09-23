@@ -8,10 +8,12 @@
 # License ("GPL") version 3, as published by the Free Software Foundation.
 #
 
-# Priority: 200
+# Priority: 300
 # Description: Patch LV1 hypervisor
 
 # Option --patch-lv1-mmap: Allow mapping of any memory area (Needed for LV2 Poke)
+
+# Type --patch-lv1: boolean
 
 namespace eval ::patch_lv1 {
 

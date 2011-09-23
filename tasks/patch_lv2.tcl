@@ -8,10 +8,12 @@
 # License ("GPL") version 3, as published by the Free Software Foundation.
 #
     
-# Priority: 300
+# Priority: 400
 # Description: Patch LV2 kernel
     
 # Option --patch-lv2-peek-poke: Patch to add Peek&Poke system calls to LV2
+
+# Type --patch-lv2-peek-poke: boolean
 
 namespace eval ::patch_lv2 {
 
