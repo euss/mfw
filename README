@@ -1,0 +1,71 @@
+
+==============================================================
+  .------.  .-------. .-----.   ..  .-.   .--------.      .--.
+ /_____   \/   _____//_____  \ /  \/   \ /_   _____/\    /   /
+  /   ____/\____  \  __(__  < /         \ /   __)\   \/\/   / 
+ /   /     /       \/        \   /\/\    Y   /    \        /  
+/___/     /________/_________/__/    \___|__/      \__/\__/   
+                                   PS3MFW Builder v0.1
+==============================================================
+
+------------
+INTRODUCTION
+------------
+
+For years, the security system of PS3 remained unbreached because Sony had a
+very good defense mechanism: Consumers could use it for more than just gaming 
+by installing Linux via the "Other OS" feature.  Therefore there was little 
+motivation for security researchers to investigate the PS3.  However, then Sony 
+(or SCE, SCEA, SCEE or whatever, we aren't exactly sure what is going on there 
+anymore) made an unprecedented move: Not only did they introduce a new PS3 
+model that no longer allowed the installation of an Other OS, but with a 
+firmware "upgrade" they removed the capability from previously sold consoles.  
+While removing advertised features from a product (several years after its 
+purchase!) is blatantly unlawful, having highly paid lawyers apparently allows 
+you to get away with it- in a legal sense. 
+
+
+But when the law fails to protect the people, then some of those people, being 
+clever and resourceful, help themselves. And that is what happened here.  Sony
+sunk its own battleship.
+
+PS3MFW is the next step in the process of returning to consumers control over 
+their own hardware.  Your PS3 belongs to you. You didn't lease it, and you 
+signed no contract when you purchased it.  It is your right to use it however 
+you choose. It is your responsibility to do so within the legal boundaries.
+
+PS3MFW allows you to tailor your PS3's firmware to your specific needs, giving 
+you a level of control you previously lacked.  PS3MFW is open source. That 
+means it is completely transparent, and anyone with the necessary programming 
+knowledge can help to improve it and create new plugin tasks.
+
+It is with great pleasure and joy that we are now able to present you with the 
+first public release of PS3MFW Builder. A lot of hard work went into this 
+during the past five weeks, by some incredibly dedicated and inspired people. 
+We would like to thank everyone who contributed, the people who got this 
+project underway, and those who did all the programming and testing.
+
+PS3MFW Builder v0.1 has been successfully tested on all major PS3 hardware 
+revisions, and in conjunction with OFW 3.10 - 3.55. It is NOT compatible with 
+OFW 3.56. 
+
+Remember that this is only the very first release of PS3MFW Builder, version 
+0.1.  With your support and feedback, we intend to create the definitive PS3 
+firmware solution that makes all other closed-source custom firmwares obsolete.
+
+PS3MFW Builder is not distributed with any program code copyrighted by third 
+parties.
+
+PS.
+KevinButler, you sunk your own battleship.
+
+------------
+REQUIREMENTS
+------------
+
+To use PS3MFW Builder, the following is needed:
+
+-The latest version of the f0 tools
+
+-Tcl/Tk 8.5 ( http://www.tcl.tk/software/tcltk/8.5.tml )
+

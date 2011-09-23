@@ -1,0 +1,112 @@
+tasks/patch_category_game.tcl    
+Add new icons to the XMB Game category
+Modifies dev_flash/vsh/resource/explore/xmb/category_game.xml file
+
+ --patch-package-files : Add "Install Package Files" icon to the XMB Game Category
+ --patch-app-home : Add "/app_home" icon to the XMB Game Category
+
+
+tasks/patch_lv1.tcl
+Patch LV1 hypervisor
+Modifies CORE OS lv1.self
+
+ --patch-lv1-mmap : Allow mapping of any memory area (Needed for LV2 Poke)
+
+
+tasks/patch_lv2.tcl
+Patch LV2 kernel
+Modifies CORE OS lv1.self
+
+ --patch-lv2-peek-poke : Patch to add Peek&Poke system calls to LV2
+
+
+tasks/patch_nas_plugin.tcl
+Patch package installer
+Modifies dev_flash/vsh/module/nas_plugin.sprx
+
+ --allow-debug-pkg : Patch to allow installation of debug packages
+ --allow-pseudoretail-pkg : Patch to allow installation of pseudo-retail packages
+
+
+tasks/patch_vsh.tcl
+Patch Application launcher
+Modifies dev_flash/vsh/module/vsh.self
+ --allow-unsigned-app : Patch to allow running of unsigned applications
+
+
+tasks/add_license_msg.tcl
+Modifies PUP license.xml
+Add a custom message to the 'New Features' installation screen
+ --license-auto-add-features : Automatically generate the enabled features of PS3MFW
+ --license-features-message : Prefix message to the generated features list
+ --license-message : New Features message (Appears after the license agreement)
+
+
+tasks/clean_friends.tcl
+Clean unwanted icons from the XMB Friends Category
+Modifies dev_flash/vsh/resource/explore/xmb/category_friends.xml file
+ --clean-friends-avcroom : Remove "Video Chat" icon from the XMB Friends Category
+ --clean-friends-chat : Remove "Chat Room" icon from the XMB Friends Category
+ --clean-friends-message-box : Remove "Message Box" icon from the XMB Friends Category
+ --clean-friends-nas : Remove "My Profile" icon from the XMB Friends Category
+ --clean-friends-new-chat : Remove "New Chat" icon from the XMB Friends Category
+
+
+tasks/clean_game.tcl
+Clean unwanted icons from the XMB Game Category
+Modifies dev_flash/vsh/resource/explore/xmb/category_game.xml file
+ --clean-game-gamedata : Remove "Game Data" icon from the XMB Game Category
+ --clean-game-mcutility : Remove "Memory Card Utility (PS/PS2)" icon from the XMB Game Category
+ --clean-game-minis-manual : Remove "Minis Manual" icon from the XMB Game Category
+ --clean-game-sdps3 : Remove "Saved Data Utility (PS3)" icon from the XMB Game Category
+ --clean-game-sdpsp : Remove "Saved Data Utility (minis)" icon from the XMB Game Category
+ --clean-game-trophy : Remove "Trophy Collection" icon from the XMB Game Category
+ --clean-game-welcome : Remove "PlayStation Store" icon from the XMB Game Category
+
+
+tasks/clean_music.tcl
+Clean unwanted icons from the XMB Music Category
+Modifies dev_flash/vsh/resource/explore/xmb/category_music.xml file
+ --clean-music-dlna-device : Remove "Network Media Servers" icon from the XMB Music Category
+ --clean-music-dlna-scan : Remove "Search for Media Servers" icon from the XMB Music Category
+ --clean-music-welcome : Remove "PlayStation Store" icon from the XMB Music Category
+
+
+tasks/clean_network.tcl
+Clean unwanted icons from the XMB Network Category
+Modifies dev_flash/vsh/resource/explore/xmb/category_network.xml file
+ --clean-network-browser : Remove "Internet Browser" icon from the XMB Network Category
+ --clean-network-folding-at-home : Remove "Life with PlayStation" icon from the XMB Network Category
+ --clean-network-kensaku : Remove "Internet Search" icon from the XMB Network Category
+ --clean-network-manual : Remove "Online Instruction Manuals" icon from the XMB Network Category
+ --clean-network-premo : Remove "Remote Play" icon from the XMB Network Category
+
+
+tasks/clean_photo.tcl
+Clean unwanted icons from the XMB Photo Category
+Modifies dev_flash/vsh/resource/explore/xmb/category_photo.xml file
+ --clean-photo-dlna-device : Remove "Network Media Servers" icon from the XMB Photo Category
+ --clean-photo-dlna-scan : Remove "Search for Media Servers" icon from the XMB Photo Category
+ --clean-photo-hakoniwa : Remove "Photo Gallery" icon from the XMB Photo Category
+ --clean-photo-screenshot : Remove "Screenshot" icon from the XMB Photo Category
+
+
+tasks/clean_psn.tcl
+Clean unwanted icons from the XMB PlayStation Network Category
+Modifies dev_flash/vsh/resource/explore/xmb/category_psn.xml file
+ --clean-psn-commerce-new : Remove "What's New" icon from the XMB PlayStation Network Category
+ --clean-psn-home : Remove "PlayStation Home" icon from the XMB PlayStation Network Category
+ --clean-psn-regist : Remove "Sign In" icon from the XMB PlayStation Network Category
+ --clean-psn-welcome : Remove "PlayStation Store" icon from the XMB PlayStation Network Category
+
+
+tasks/clean_video.tcl
+Clean unwanted icons from the XMB Video Category
+Modifies dev_flash/vsh/resource/explore/xmb/category_video.xml file
+ --clean-video-bddata-mgmt : Remove "BD Data Utility" icon from the XMB Video Category
+ --clean-video-dlna-device : Remove "Network Media Servers" icon from the XMB Video Category
+ --clean-video-dlna-scan : Remove "Search for Media Servers" icon from the XMB Video Category
+ --clean-video-editingvideo-mgmt : Remove "Video Editor & Uploader" icon from the XMB Video Category
+ --clean-video-netflix : Remove "Netflix" icon from the XMB Video Category
+ --clean-video-welcome : Remove "PlayStation Store" icon from the XMB Video Category
+
