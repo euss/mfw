@@ -5,7 +5,7 @@
   /   ____/\____  \  __(__  < /         \ /   __)\   \/\/   / 
  /   /     /       \/        \   /\/\    Y   /    \        /  
 /___/     /________/_________/__/    \___|__/      \__/\__/   
-                                 PS3MFW tasks v0.2
+                                 PS3MFW tasks v0.2 OtherOS++
 ==============================================================
 
 Several exciting new tasks have been created. The most interesting one is a new privacy patch, which keeps PS3 from sending personally identifiable information to many configurable domain names: After jailbreak became available for PS3, reverse engineers discovered that the PS3 collects a multitude of personal information without your knowledge, such as such as your TV model, a list of all usb devices (including product IDs) you ever plugged into your PS3, usage statistics, which games and media you play and more.

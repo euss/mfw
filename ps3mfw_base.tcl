@@ -764,3 +764,33 @@ proc set_header_key_upl_xml { file key replace message } {
     }
     return ""
 }
+
+proc unspp {in out} {
+    shell ${::UNSPP} [file nativename $in] [file nativename $out]
+}
+
+proc spp {in out} {
+    shell ${::SPP} 355 [file nativename $in] [file nativename $out]
+}
+
+proc decrypt_spp {in out} {
+    debug "Decrypting spp file [file tail $in]"
+    catch_die {unspp $in $out} "Could not decrypt file [file tail $in]"
+}
+
+proc patch_pp {file search replace_offset replace {ignore_bytes {}}} {
+    patch_file $file $search $replace_offset $replace $ignore_bytes
+}
+
+proc sign_pp {in out} {
+    debug "Rebuilding spp file [file tail $out]"
+    catch_die {spp $in $out} "Could not rebuild file [file tail $out]"
+}
+
+proc modify_spp_file {file callback args} {
+    log "Modifying spp file [file tail $file]"
+    decrypt_spp $file ${file}.pp
+    eval $callback ${file}.pp $args
+    sign_pp ${file}.pp $file
+    file delete ${file}.pp
+}

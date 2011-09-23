@@ -37,6 +37,8 @@ set ::UNPKG "unpkg"
 set ::UNSELF "unself"
 set ::MAKESELF "self_rebuilder"
 set ::RCOMAGE "rcomage"
+set ::UNSPP "unspp"
+set ::SPP "spp"
 
 set ::PS3MFW_DIR [file dirname [info script]]
 set ::program [file tail [info script]]
