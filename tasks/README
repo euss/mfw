@@ -24,9 +24,9 @@ BREAKDOWN OF ALL NEW/EXTENDED TASKS
 
 - patch_emer_init.tcl - Added 100 GameOS/OtherOS Sizes (10-1000GB in 10GB increments)
 
-- patch_shop2.tcl – Converts demo/promo firmwares to enable installing on retail PS3s (thus enabling password lockout, demo-mode and package installer in systemmenu), without the need for service mode!
+- patch_shop2.tcl - Converts demo/promo firmwares to enable installing on retail PS3s (thus enabling password lockout, demo-mode and package installer in systemmenu), without the need for service mode!
 
-- spoof_version.tcl - More spoof added (all 3.x up to 3.72 and 1.02)
+- spoof_version.tcl - More spoof added (all Retail/CEX 1.x, 2.x, 3.x up to including 3.72)
 
 - ps3mfw_base.tcl - Merged 0.2++ spoof (needed for spoof_version.tcl) and OtherOS++ SPP (needed for patch_profile.tcl)
 
@@ -70,19 +70,19 @@ OtherOS++ Tasks
 0.2 Tasks
 ---------
 
-- patch_privacy.tcl – PS3 collects a large amount of personal information while it’s operating. Additionally personal information is sent to many domain names when internet access is enabled (unrelated to PSN access). This task prevents PS3 from sending any data to the domain names you select.
+- patch_privacy.tcl - PS3 collects a large amount of personal information while it’s operating. Additionally personal information is sent to many domain names when internet access is enabled (unrelated to PSN access). This task prevents PS3 from sending any data to the domain names you select.
 
-- broken_bluray.tcl – Allows you to remove Blu-Ray firmware installation so that the MFW can be installed without a working Blu-Ray drive. This is potentially dangerous if used on a PS3 with a working drive, and should only be used if the drive is broken.
+- broken_bluray.tcl - Allows you to remove Blu-Ray firmware installation so that the MFW can be installed without a working Blu-Ray drive. This is potentially dangerous if used on a PS3 with a working drive, and should only be used if the drive is broken.
 
-- spoof_version.tcl – Allows changing the firmware version the PS3 appears to be on, similar to the rebug spoofer.
+- spoof_version.tcl - Allows changing the firmware version the PS3 appears to be on, similar to the rebug spoofer.
 
-- change_coldboot_files.tcl – Advanced users only: Allows changing the sound played and image shown during the boot process. Caution: If improper files are used, this can cause a “brick”.
+- change_coldboot_files.tcl - Advanced users only: Allows changing the sound played and image shown during the boot process. Caution: If improper files are used, this can cause a “brick”.
 
-- change_ssl_cer.tcl – Allows changing of SSL certificates.
+- change_ssl_cer.tcl - Allows changing of SSL certificates.
 
-- change_theme.tcl – Can be used to replace the default "Airbrush" theme with another theme file (.p3t format).
+- change_theme.tcl - Can be used to replace the default "Airbrush" theme with another theme file (.p3t format).
 
-- patch_shop.tcl – Creates firmware to transform demo PS3s (the units used in stores) into full retail PS3s, without the need for service mode!
+- patch_shop.tcl - Creates firmware to transform demo PS3s (the units used in stores) into full retail PS3s, without the need for service mode!
 
 ---------
 0.1 Tasks
