@@ -16,9 +16,59 @@ Additionally, several new customizations including a firmware version spoofer, a
 
 The new tasks can be found at www.git-hacks.com/ps3mfw
 
---------------------------
-BREAKDOWN OF ALL NEW TASKS
---------------------------
+-----------------------------------
+BREAKDOWN OF ALL NEW/EXTENDED TASKS
+-----------------------------------
+
+- patch_appldr.tcl - Patch Appldr to allow Fself (3.10-3.30 / 3.40-3.55) set debug true (Experimental!)
+
+- patch_emer_init.tcl - Added 100 GameOS/OtherOS Sizes (10-1000GB in 10GB increments)
+
+- patch_shop2.tcl – Converts demo/promo firmwares to enable installing on retail PS3s (thus enabling password lockout, demo-mode and package installer in systemmenu), without the need for service mode!
+
+- spoof_version.tcl - More spoof added (all 3.x up to 3.72 and 1.02)
+
+- ps3mfw_base.tcl - Merged 0.2++ spoof (needed for spoof_version.tcl) and OtherOS++ SPP (needed for patch_profile.tcl)
+
+---------------
+OtherOS++ Tasks
+---------------
+
+- patch_emer_init.tcl
+  - 4 GameOS/OtherOS Sizes: Create GameOS HDD region of size half / quarter / eight of installed HDD or 22GB smaller than default
+  - Disable searching for update packages in GAME disc.
+
+- patch_lv1.tcl
+  - peek/poke support (unused lv1 calls 182 and 183)
+  - Allow mapping of HTAB with write protection
+  - Allow to set all bits of SPE register MFC_SR1 with lv1_set_spe_privilege_state_area_1_register
+  - Allow setting data access breakpoints in hypervisor state with lv1_set_dabr
+  - Allow ENCDEC IOCTL command 0x85
+  - Allow access to all SS services (Needed for ps3dm-utils)
+  - Allow access to all services of Indi Info Manager
+  - Allow extracting for all package types
+  - Allow enabling product mode by using Update Manager Write EPROM
+  - Allow deleting of all ENCDEC keys
+  - Allow creating/modifying/deleting of repository nodes in any LPAR
+  - Disable integrity check in System Manager
+  - Allow access to all System Manager services of GameOS
+  - Enable GuestOS mode 1 for GameOS
+  - Skip ACL checks for all storage devices
+  - OtherOS++ support
+
+- patch_lv2.tcl
+  - Patch to add LV1 Peek&Poke system calls to LV2 3.55 (LV1 peek/poke patch necessary)
+  - Patch to add LV1 Call system call to LV2 3.55
+
+- patch_profile.tcl - Increase boot memory size of GameOS (Needed for OtherOS++)
+
+- spoof_version.tcl - Simplified spoof up to 3.60
+
+- ps3mfw_base.tcl - Added support for SPP (needed for patch_profile.tcl)
+
+---------
+0.2 Tasks
+---------
 
 - patch_privacy.tcl – PS3 collects a large amount of personal information while it’s operating. Additionally personal information is sent to many domain names when internet access is enabled (unrelated to PSN access). This task prevents PS3 from sending any data to the domain names you select.
 
