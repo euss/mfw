@@ -163,3 +163,5 @@ Other firmwares:
 3.70 SHOP/SEX             || MD5::83802a6dfa1f564b0fdd4d7ac3d4b4ab || SHA1::a3070b5948c89b6daa08bea87b1a29397e904077
 3.71 DEBUG/DEX            || MD5::                                 || SHA1::
 3.72 RETAIL/CEX           || MD5::c7d179d273699c2e5d53e401264828f3 || SHA1::a408ca480788bdbe32ffce23277d7e7d453a0861
+3.73 RETAIL/CEX           || MD5::077a6a0a9abf3622373e3daa53f3ec70 || SHA1::40163d9693ae58141377a3f270b0ed956c1bcfa7
+3.73 RETAIL/CEX-PATCH     || MD5::8aaa8dd1094aafdcc582916e670ad78e || SHA1::0259d592635fc79ec95947fbdaa66fc03d395687
