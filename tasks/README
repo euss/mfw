@@ -20,7 +20,34 @@ The new tasks can be found at www.git-hacks.com/ps3mfw
 Unofficial 0.2.1 'DanyL'
 ------------------------
 Added in main, options to save settings for:
-- Language (translations added for German/Deutsch, Dutch/Nederlands, English, Spanish/Espanol, French/Française, Hebrew, Italian, and some non-realworld languages: L33t-var1, L33t-var2, Piglatin & SwedishChef).
+- Language, translations added for 
+   - Czech/Cesky
+   - Danish/Danske
+   - Dutch/Nederlands
+   - English
+   - French/Francaise
+   - Fun1/SwedishChef
+   - Fun2/Piglatin
+   - Fun3/L33t-var2
+   - Fun4/L33t-var1
+   - Gallic/Galo
+   - German/Deutsch
+   - Hebrew/Jiddisch
+   - Hungerian/Magyar
+   - Icelandic/Islenska
+   - Indonesian/Indonesia
+   - Italian/Italiano
+   - Lithuanian/Lietuvos
+   - Malay/Melayu
+   - Norwegian/Norske
+   - Polish/Polski
+   - Portugese /Portugues
+   - Romanian/Roman
+   - Slovak/Slovaski
+   - Slovenian/Slovenski
+   - South-African/Suid-Afrikaans
+   - Spanish/Espanol
+   - Swedish/Svenska
 - Temp folder
 - PS3_KEYS folder
 - Save/Default for all the settings, including selected/unselected tasks, original/modified firmware paths, theme and so on.
