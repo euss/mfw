@@ -5,7 +5,7 @@
   /   ____/\____  \  __(__  < /         \ /   __)\   \/\/   / 
  /   /     /       \/        \   /\/\    Y   /    \        /  
 /___/     /________/_________/__/    \___|__/      \__/\__/   
-                                 PS3MFW tasks v0.2 OtherOS++
+                                PS3MFW tasks v0.2.1 OtherOS++
 ==============================================================
 
 Several exciting new tasks have been created. The most interesting one is a new privacy patch, which keeps PS3 from sending personally identifiable information to many configurable domain names: After jailbreak became available for PS3, reverse engineers discovered that the PS3 collects a multitude of personal information without your knowledge, such as such as your TV model, a list of all usb devices (including product IDs) you ever plugged into your PS3, usage statistics, which games and media you play and more.
@@ -16,17 +16,33 @@ Additionally, several new customizations including a firmware version spoofer, a
 
 The new tasks can be found at www.git-hacks.com/ps3mfw
 
+------------------------
+Unofficial 0.2.1 'DanyL'
+------------------------
+Added in main, options to save settings for:
+- Language (translations added for German/Deutsch, Dutch/Nederlands, English, Spanish/Espanol, French/Française, Hebrew, Italian, and some non-realworld languages: L33t-var1, L33t-var2, Piglatin & SwedishChef).
+- Temp folder
+- PS3_KEYS folder
+- Save/Default for all the settings, including selected/unselected tasks, original/modified firmware paths, theme and so on.
+Keybind added: you can restart PS3MFW Builder by pressing Shift-R.
+
 -----------------------------------
 BREAKDOWN OF ALL NEW/EXTENDED TASKS
 -----------------------------------
 
+- homebrew_category.tcl - Add "Homebrew" category to the XMB
+
+- language_pack.tcl - Add/change Language Pack's, for XMB translations, see: http://www.ps3hax.net/2011/08/xmb-translation-guide/
+
+- tv_category.tcl - Add "TV" category to the XMB
+
 - patch_appldr.tcl - Patch Appldr to allow Fself (3.10-3.30 / 3.40-3.55) set debug true (Experimental!)
 
-- patch_emer_init.tcl - Added 100 GameOS/OtherOS Sizes (10-1000GB in 10GB increments)
+- patch_emer_init.tcl - Added 100 GameOS/OtherOS Sizes (10-1000GB in 10GB increments) quick&dirty alpha version (final needs radiobuttons, slider and/or inputbox)
 
 - patch_shop2.tcl - Converts demo/promo firmwares to enable installing on retail PS3s (thus enabling password lockout, demo-mode and package installer in systemmenu), without the need for service mode!
 
-- spoof_version.tcl - More spoof added (all Retail/CEX 1.x, 2.x, 3.x up to including 3.72)
+- spoof_version.tcl - More spoof added (all Retail/CEX 1.x, 2.x, 3.x up to including 3.73)
 
 - ps3mfw_base.tcl - Merged 0.2++ spoof (needed for spoof_version.tcl) and OtherOS++ SPP (needed for patch_profile.tcl)
 

@@ -71,6 +71,24 @@ namespace eval ::gui {
     proc create_gui {arguments selected_tasks} {
         variable tasks
 
+		set ::settings [file join $::PS3MFW_DIR Settings.xml]
+		set ::xmlang [::xml::LoadFile $::settings]
+		set ::language [::xml::GetData ${::xmlang} "Settings:language" 0]
+		if { ${::language} == "" } {
+			set ::language "English"
+		}
+		set re [open [file join $::PS3MFW_DIR language ${::language}.xml] r]	
+		# taken from Unicode and UTF-8 article (wiki.tcl.tk/515)	
+		fconfigure $re -encoding binary
+		set InBuffer ""
+		set enc_xmllang ""
+		while {![eof $re]} {
+			append InBuffer [read $re 100]
+			append enc_xmllang [UTF8FullCodes InBuffer]
+		}
+		close $re		
+		set ::xmllang [::xml::Load $enc_xmllang]
+        
         wm title . "PS3MFW Builder v${::PS3MFW_VERSION}"
         create_menu
 
@@ -80,7 +98,10 @@ namespace eval ::gui {
             bind . <Control-Shift-C> "console show"
         }
 
-        hijack_logs
+        bind . <Shift-R> {exec [info nameofexecutable] & 
+		exit}
+		
+		hijack_logs
 
         if {[llength $arguments] > 2} {
             wm withdraw .
@@ -97,8 +118,8 @@ namespace eval ::gui {
         pack $right -side right -expand false -fill y -padx $::gui::padx -pady $::gui::pady
         pack $middle -side left -expand true -fill both -padx $::gui::padx -pady $::gui::pady
         set files [::ttk::frame .left.files]
-        set options_frame [::ttk::labelframe .left.options -text "Options"]
-        set tasks_labelframe [::ttk::labelframe .left.tasks -text "Tasks"]
+        set options_frame [::ttk::labelframe .left.options -text "[::xml::GetData ${::xmllang} "Lang:Options" 0]"]
+        set tasks_labelframe [::ttk::labelframe .left.tasks -text "[::xml::GetData ${::xmllang} "Lang:Tasks" 0]"]
         set tasks_scrollframe [scrolledframe::scrolledframe .left.tasks.f \
               -yscrollcommand [list ::gui::set_scroll $tasks_labelframe.sy] \
               -xscrollcommand [list ::gui::set_scroll $tasks_labelframe.sx]]
@@ -117,25 +138,26 @@ namespace eval ::gui {
         set input [::ttk::frame .left.files.input]
         set output [::ttk::frame .left.files.output]
         pack $input $output -side top -expand true -fill both -padx $::gui::padx -pady $::gui::pady
-        set input_label [::ttk::label .left.files.input.label -text "Original Firmware :"]
+        set input_label [::ttk::label .left.files.input.label -text "[::xml::GetData ${::xmllang} "Lang:Original_Firmware" 0]"]
         set input_entry [::ttk::entry .left.files.input.entry -textvariable ::IN_FILE]
-        set input_button [::ttk::button .left.files.input.button -text "Browse" -command [list ::gui::browse open $input_entry [list { "PS3 Firmware Update" {*.PUP *.pup} }] ".PUP" "Choose the Official Firmware Update"]]
+        set input_button [::ttk::button .left.files.input.button -text "[::xml::GetData ${::xmllang} "Lang:Browse" 0]" -command [list ::gui::browse open "false" $input_entry [list { "PS3 Firmware Update" {*.PUP *.pup} }] ".PUP" "Choose the Official Firmware Update"]]
         pack $input_label $input_entry $input_button -side left -expand true -fill x -anchor nw -padx $::gui::padx -pady $::gui::pady
-        set output_label [::ttk::label .left.files.output.label -text "Modified Firmware :"]
+        set output_label [::ttk::label .left.files.output.label -text "[::xml::GetData ${::xmllang} "Lang:Modified_Firmware" 0]"]
         set output_entry [::ttk::entry .left.files.output.entry -textvariable ::OUT_FILE]
-        set output_button [::ttk::button .left.files.output.button -text "Browse" -command [list ::gui::browse save $output_entry [list { "PS3 Firmware Update" {*.PUP *.pup} }] ".PUP" "Choose the destination Modified Firmware"]]
+        set output_button [::ttk::button .left.files.output.button -text "[::xml::GetData ${::xmllang} "Lang:Browse" 0]" -command [list ::gui::browse save "false" $output_entry [list { "PS3 Firmware Update" {*.PUP *.pup} }] ".PUP" "Choose the destination Modified Firmware"]]
         pack $output_label $output_entry $output_button -side left -expand true -fill x -anchor nw -padx $::gui::padx -pady $::gui::pady
 
         set ::IN_FILE [lindex $arguments 0]
         set ::OUT_FILE [lindex $arguments 1]
 
-        set build [::ttk::button .right.build -text "Build MFW" -command ::gui::build_mfw]
-        set exit [::ttk::button .right.exit -text "Quit" -command exit]
+        set build [::ttk::button .right.build -text "[::xml::GetData ${::xmllang} "Lang:Build_MFW" 0]" -command ::gui::build_mfw]
+		set setting [::ttk::button .right.lsettings -text "[::xml::GetData ${::xmllang} "Lang:Settings" 0]" -command ::gui::settings]
+        set exit [::ttk::button .right.exit -text "[::xml::GetData ${::xmllang} "Lang:Quit" 0]" -command exit]
         set about [::ttk::frame .right.about]
-        set themes [::ttk::labelframe .right.themes -text "Theme"]
+        set themes [::ttk::labelframe .right.themes -text "[::xml::GetData ${::xmllang} "Lang:Theme" 0]"]
         populate_themes $themes
         add_about_msg $about
-        pack $about $build $exit -side top -expand false -fill both -padx $::gui::padx -pady $::gui::pady
+        pack $about $build $setting $exit -side top -expand false -fill both -padx $::gui::padx -pady $::gui::pady
 
         unset ::options(--gui)
         foreach opt [get_sorted_options [file normalize [info script]] [array names ::options]] {
@@ -173,6 +195,7 @@ namespace eval ::gui {
                 }
             }
         }
+		::gui::load_settings
     }
 
     proc scrollWidget {w d} {
@@ -196,28 +219,30 @@ namespace eval ::gui {
             set appmenu $menu.apple
             $menu add cascade -label "PS3MFW Builder" -menu $appmenu
             menu $appmenu -tearoff 0 -type normal
-            $appmenu add command -label "About PS3MFW Builder" \
+            $appmenu add command -label "[::xml::GetData ${::xmllang} "Lang:About_PS3MFW_Builder" 0]" \
               -command ::gui::about
             $appmenu add separator
         }
 
         set filemenu [menu $menu.file -tearoff 0 -type normal]
-        $filemenu add command -label "Select Official firmware" \
-          -command [list ::gui::browse open .left.files.input.entry [list { "PS3 Firmware Update" {*.PUP *.pup} }] ".PUP" "Choose the Official Firmware Update"]
-        $filemenu add command -label "Select Destination MFW firmware" \
-          -command [list ::gui::browse save .left.files.output.entry [list { "PS3 Firmware Update" {*.PUP *.pup} }] ".PUP" "Choose the destination Modified Firmware"]
+        $filemenu add command -label "[::xml::GetData ${::xmllang} "Lang:Select_Official_firmware" 0]" \
+          -command [list ::gui::browse open "false" .left.files.input.entry [list { "PS3 Firmware Update" {*.PUP *.pup} }] ".PUP" "Choose the Official Firmware Update"]
+        $filemenu add command -label "[::xml::GetData ${::xmllang} "Lang:Select_Destination_MFW_firmware" 0]" \
+          -command [list ::gui::browse save "false" .left.files.output.entry [list { "PS3 Firmware Update" {*.PUP *.pup} }] ".PUP" "Choose the destination Modified Firmware"]
         $filemenu add separator
-        $filemenu add command -label "Build MFW" -command ::gui::build_mfw
+        $filemenu add command -label "[::xml::GetData ${::xmllang} "Lang:Build_MFW" 0]" -command ::gui::build_mfw
         $filemenu add separator
-        $filemenu add command -label "Exit" -command "exit"
+		$filemenu add command -label "[::xml::GetData ${::xmllang} "Lang:Settings" 0]" -command ::gui::settings
+		$filemenu add separator
+        $filemenu add command -label "[::xml::GetData ${::xmllang} "Lang:Exit" 0]" -command "exit"
 
         set thememenu [menu $menu.theme -tearoff 0 -type normal]
         set helpmenu [menu $menu.help -tearoff 0 -type normal]
-        $helpmenu add command -label "About PS3MFW Builder" -command ::gui::about
+        $helpmenu add command -label "[::xml::GetData ${::xmllang} "Lang:About_PS3MFW_Builder" 0]" -command ::gui::about
 
-        $menu add cascade -label "File" -menu $filemenu
-        $menu add cascade -label "Theme" -menu $thememenu
-        $menu add cascade -label "Help" -menu $helpmenu
+        $menu add cascade -label "[::xml::GetData ${::xmllang} "Lang:File" 0]" -menu $filemenu
+        $menu add cascade -label "[::xml::GetData ${::xmllang} "Lang:Theme" 0]" -menu $thememenu
+        $menu add cascade -label "[::xml::GetData ${::xmllang} "Lang:Help" 0]" -menu $helpmenu
 
         . configure -menu $menu
     }
@@ -235,7 +260,7 @@ namespace eval ::gui {
     proc about { } {
         destroy .about
         toplevel .about
-        wm title .about "About PS3MFW Builder"
+        wm title .about "[::xml::GetData ${::xmllang} "Lang:About_PS3MFW_Builder" 0]"
 
         ::ttk::frame .about.f
         pack .about.f -expand true -fill both
@@ -249,6 +274,56 @@ namespace eval ::gui {
         incr middle_x -[expr {int($w / 2)}]
         incr middle_y -[expr {int($h / 2)}]
         wm geometry .about ${w}x${h}+${middle_x}+${middle_y}
+    }
+
+    proc add_settings { settings } {
+	
+        set icon128 [image create photo -file [file join ${::PS3MFW_DIR} images ps3mfw-icon-128.gif]]
+        pack [::ttk::label $settings.img -image $icon128 -anchor center] -expand false -fill both
+		set files [glob -directory [file join $::PS3MFW_DIR language] *]
+		list langlist ""
+		foreach filename ${files} {lappend langlist " [file rootname [file tail $filename]]"}
+		set lang [::ttk::combobox $settings.l -textvariable ::::selected_lang -values $langlist]
+		set ::selected_lang ${::language}
+		pack [::ttk::label $settings.2 -text "[::xml::GetData ${::xmllang} "Lang:Language" 0]:" -anchor center] -expand false -fill x
+		pack $lang -side top -expand false -fill none -anchor center
+		pack [::ttk::label $settings.3 -text "" -anchor center] -expand false -fill x
+		set temp [::ttk::frame $settings.temp]
+		set ps3_keys [::ttk::frame $settings.ps3_keys]
+		pack $temp $ps3_keys -side top -expand false -fill x
+        set temp_label [::ttk::label $settings.temp.1 -text "Temp Files:"]
+        set ::temp_entry [::ttk::entry $settings.temp.2 -textvariable ::temp_dir]
+		set ::temp_dir [file nativename ${::BUILD_DIR}]
+        set temp_button [::ttk::button $settings.temp.3 -text "[::xml::GetData ${::xmllang} "Lang:Browse" 0]" -command [list ::gui::browse_directory ${::temp_entry} "Select Temp directory:"]]	
+		pack $temp_label $::temp_entry $temp_button -side left -expand true
+        set ps3_keys_label [::ttk::label $settings.ps3_keys.1 -text "PS3_KEYS:"]
+        set ::ps3_keys_entry [::ttk::entry $settings.ps3_keys.2 -textvariable ::ps3_keys_dir]
+		set ::ps3_keys_dir ${::env(PS3_KEYS)}
+        set ps3_keys_button [::ttk::button $settings.ps3_keys.3 -text "[::xml::GetData ${::xmllang} "Lang:Browse" 0]" -command [list ::gui::browse_directory ${::ps3_keys_entry} "Select PS3_KEYS directory:"]]
+		pack $ps3_keys_label $::ps3_keys_entry $ps3_keys_button -side left -expand true
+		set ssettings [::ttk::button $settings.7 -text "[::xml::GetData ${::xmllang} "Lang:Save_settings" 0]" -command ::gui::save_settings]
+		set csettings [::ttk::button $settings.8 -text "[::xml::GetData ${::xmllang} "Lang:Default_settings" 0]" -command ::gui::default_settings]
+		pack $ssettings $csettings -side left -expand true -fill none	
+    }
+
+    proc settings { } {
+	
+        destroy .settings
+        toplevel .settings
+        wm title .settings "[::xml::GetData ${::xmllang} "Lang:PS3MFW_Builder_Settings" 0]"
+
+        ::ttk::frame .settings.f
+        pack .settings.f -expand true -fill both
+        add_settings .settings.f
+
+        regexp {=?(\d+)x(\d+)[+\-](-?\d+)[+\-](-?\d+)} [winfo geometry .] -> width height x y
+        set middle_x [expr {$x + ($width / 2)}]
+        set middle_y [expr {$y + ($height / 2)}]
+        set w 320
+        set h 300
+        incr middle_x -[expr {int($w / 2)}]
+        incr middle_y -[expr {int($h / 2)}]
+        wm geometry .settings ${w}x${h}+${middle_x}+${middle_y}
     }
 
     proc populate_themes {themes} {
@@ -343,10 +418,35 @@ namespace eval ::gui {
                 set widget [::ttk::frame $w.$name]
                 set label [::ttk::label $w.$name.label -text "$description :"]
                 set entry [::ttk::entry $w.$name.entry -textvariable $option]
-                set button [::ttk::button $w.$name.button -text "Browse" \
-                      -command [list ::gui::browse $action $entry "$fileTypes" ".${fileType}" "Choose $typeDesc File"]]
+                set button [::ttk::button $w.$name.button -text "[::xml::GetData ${::xmllang} "Lang:Browse" 0]" \
+                      -command [list ::gui::browse $action "false" $entry "$fileTypes" ".${fileType}" "Choose $typeDesc File"]]
                 pack $label $entry $button -side left -expand true -fill x -anchor nw -padx $::gui::padx -pady $::gui::pady
             }
+			files {
+                set action [lindex $typeargs 1]
+                set typeDesc [lindex $typeargs 2 0]
+                set fileType [lindex $typeargs 2 1]
+                set fileTypes [list [list $typeDesc [list *.[string toupper $fileType] *.[string tolower $fileType]]]]
+                #debug "Option action $name: $action"
+                #debug "Option typeDesc $name: $typeDesc"
+                #debug "Option Filetype $name: $fileType"
+                #debug "Option Filetypes $name: $fileTypes"
+                set widget [::ttk::frame $w.$name]
+                set label [::ttk::label $w.$name.label -text "$description :"]
+                set entry [::ttk::entry $w.$name.entry -textvariable $option]
+                set button [::ttk::button $w.$name.button -text "[::xml::GetData ${::xmllang} "Lang:Browse" 0]" \
+                      -command [list ::gui::browse $action "true" $entry "$fileTypes" ".${fileType}" "Choose $typeDesc Files"]]
+                pack $label $entry $button -side left -expand true -fill x -anchor nw -padx $::gui::padx -pady $::gui::pady
+            }
+			directory {
+				set title [lindex $typeargs 1]
+				set widget [::ttk::frame $w.$name]
+				set label [::ttk::label $w.$name.label -text "$description :"]
+				set entry [::ttk::entry $w.$name.entry -textvariable $option]
+				set button [::ttk::button $w.$name.button -text "[::xml::GetData ${::xmllang} "Lang:Browse" 0]" \
+					-command [list ::gui::browse_directory $entry $title]]
+				pack $label $entry $button -side left -expand true -fill x -anchor nw -padx $::gui::padx -pady $::gui::pady
+			}	
             textarea {
                 set widget [::ttk::frame $w.$name]
                 set label [::ttk::label $w.$name.label -text "$description :"]
@@ -486,7 +586,7 @@ namespace eval ::gui {
 
     }
 
-    proc browse { type path filetypes extension title } {
+    proc browse { type multiple path filetypes extension title } {
         append filetypes {
             { "All Files" {*.*} }
         }
@@ -499,13 +599,21 @@ namespace eval ::gui {
 
             if { ![file exists $initialfile] } {
                 set initialfile ""
-                set file [tk_getOpenFile -defaultextension $extension -filetypes $filetypes -multiple false -parent $path -title $title]
+                set file [tk_getOpenFile -defaultextension $extension -filetypes $filetypes -multiple $multiple -parent $path -title $title]
             } else {
-                set file [tk_getOpenFile -defaultextension $extension -filetypes $filetypes -initialfile $initialfile -multiple false -parent $path -title $title]
+                set file [tk_getOpenFile -defaultextension $extension -filetypes $filetypes -initialfile $initialfile -multiple $multiple -parent $path -title $title]
             }
         } else {
             set file [tk_getSaveFile -defaultextension $extension -filetypes $filetypes -initialfile ${::OUT_FILE}  -parent $path -title $title]
         }
+        if {$file != ""} {
+            $path delete 0 end
+            $path insert 0 $file
+        }
+    }
+	
+    proc browse_directory { path title } {
+        set file [tk_chooseDirectory -parent $path -title $title]
         if {$file != ""} {
             $path delete 0 end
             $path insert 0 $file
@@ -598,11 +706,161 @@ namespace eval ::gui {
             log "Error running script: $res" 1
             tk_messageBox -default ok -message "FATAL ERROR: $res" -icon error
         } else {
-            tk_messageBox -default ok -message "Modified Firmware Built successfully!" -icon info
+            tk_messageBox -default ok -message "[::xml::GetData ${::xmllang} "Lang:successfully" 0]" -icon info
         }
         enable_gui
     }
 
+ proc UTF8FullCodes pBuffer {
+		# taken from Unicode and UTF-8 article (wiki.tcl.tk/515)
+        upvar $pBuffer Buffer
+        set LastPos [string length $Buffer]
+        incr LastPos -1
+        set nBytes 1
+        for {set Pos $LastPos} {$Pos >= 0} {incr Pos -1} {
+                set Code [scan [string index $Buffer $Pos] %c]
+                if { $Code < 0x80 } {
+                        break
+                }
+                if { $Code < 0xbf } {
+                        incr nBytes
+                } else {
+                        for {set Bytes 2} {$Bytes <= 6} {incr Bytes} {
+                                # > Check for zero at Position (7 - Bytes)
+                                if {0 == (( 1 << (7 - $Bytes)) & $Code)} {
+                                        break
+                                }
+                        }
+                        puts "Bytes=$Bytes"
+                        if { $Bytes == $nBytes } {
+                                set Pos $LastPos
+                                break
+                        } else {
+                                incr Pos -1
+                                break
+                        }
+                }
+        }
+        set Res [encoding convertfrom utf-8 [string range $Buffer 0 $Pos]]
+        incr Pos
+        set Buffer [string range $Buffer $Pos end]
+        return $Res
+ }
+	
+	proc load_settings { } {
+	
+        set ::IN_FILE [::xml::GetData ${::xmlang} "Settings:IN_FILE" 0]
+        set ::OUT_FILE [::xml::GetData ${::xmlang} "Settings:OUT_FILE" 0]
+
+		variable tasks
+        set selected_tasks [list]
+        foreach task [array names tasks] {
+            catch {unset ::${task}::options}
+            if {$tasks($task)} {
+                lappend selected_tasks $task
+            }
+        }
+		
+		set data [::xml::GetData ${::xmlang} "Settings:tasks" 0]
+		
+        foreach task $selected_tasks {
+			set ::gui::tasks($task) false
+		}
+
+        foreach task $data {
+			set ::gui::tasks($task) true
+		}
+		
+		if { [::xml::GetData ${::xmlang} "Settings:Theme" 0] != "" } {	
+			::ttk::setTheme [::xml::GetData ${::xmlang} "Settings:Theme" 0]
+			variable theme  [set ::ttk::currentTheme]
+		}
+	}
+	
+	proc save_settings { } {
+	
+		set fs $::settings
+		set ::xmlang [::xml::LoadFile $fs]
+	
+		sed_in_place $fs "<IN_FILE>[::xml::GetData ${::xmlang} "Settings:IN_FILE" 0]</IN_FILE>" "<IN_FILE>${::IN_FILE}</IN_FILE>"
+		sed_in_place $fs "<OUT_FILE>[::xml::GetData ${::xmlang} "Settings:OUT_FILE" 0]</OUT_FILE>" "<OUT_FILE>${::OUT_FILE}</OUT_FILE>"
+				
+		variable theme
+		sed_in_place $fs "<Theme>[::xml::GetData ${::xmlang} "Settings:Theme" 0]</Theme>" "<Theme>${theme}</Theme>"
+				
+		variable tasks
+        set selected_tasks [list]
+        foreach task [array names tasks] {
+            catch {unset ::${task}::options}
+            if {$tasks($task)} {
+                lappend selected_tasks $task
+            }
+        }
+
+		set taskslist ""
+			foreach task ${selected_tasks} {
+				append taskslist " $task"
+			}
+
+		sed_in_place $fs "<tasks>[::xml::GetData ${::xmlang} "Settings:tasks" 0]</tasks>" "<tasks>${taskslist}</tasks>"
+		
+		if {${::selected_lang} != [::xml::GetData ${::xmlang} "Settings:language" 0] & ${::selected_lang} != "" | [string trim ${::ps3_keys_dir}] != [::xml::GetData ${::xmlang} "Settings:PS3_KEYS" 0] | ${::temp_dir} != [file join /tmp PS3MFW] & ${::temp_dir} != [::xml::GetData ${::xmlang} "Settings:BUILD_DIR" 0]} {
+			sed_in_place $fs "<language>[::xml::GetData ${::xmlang} "Settings:language" 0]</language>" "<language>[string trim ${::selected_lang}]</language>"	
+
+			if {[file exists ${::temp_dir}]} {
+				sed_in_place $fs "<BUILD_DIR>[::xml::GetData ${::xmlang} "Settings:BUILD_DIR" 0]</BUILD_DIR>" "<BUILD_DIR>${::temp_dir}</BUILD_DIR>"
+			} else {
+				sed_in_place $fs "<BUILD_DIR>[::xml::GetData ${::xmlang} "Settings:BUILD_DIR" 0]</BUILD_DIR>" "<BUILD_DIR></BUILD_DIR>"
+			}
+				
+			if {[file exists ${::ps3_keys_dir}]} {
+				sed_in_place $fs "<PS3_KEYS>[::xml::GetData ${::xmlang} "Settings:PS3_KEYS" 0]</PS3_KEYS>" "<PS3_KEYS>${::ps3_keys_dir}</PS3_KEYS>"
+			} else {
+				sed_in_place $fs "<PS3_KEYS>[::xml::GetData ${::xmlang} "Settings:PS3_KEYS" 0]</PS3_KEYS>" "<PS3_KEYS></PS3_KEYS>"
+			}
+			
+			exec [info nameofexecutable] &
+			exit
+		}	
+	}
+
+	proc default_settings { } {
+		set ::temp_dir ""
+		set ::ps3_keys_dir ""
+	    set ::IN_FILE ""
+        set ::OUT_FILE ""
+			
+		variable tasks
+        set selected_tasks [list]
+        foreach task [array names tasks] {
+            catch {unset ::${task}::options}
+            if {$tasks($task)} {
+                lappend selected_tasks $task
+            }
+        }	
+			
+        foreach task $selected_tasks {
+			set ::gui::tasks($task) false
+		}
+
+        foreach task [list add_license_msg change_version patch_category_game] {
+			set ::gui::tasks($task) true
+		}
+		
+		set ::selected_lang "English"
+
+		if { $::tcl_platform(os) == "Linux" } {
+			::ttk::setTheme clam
+		} elseif { $::tcl_platform(platform) == "windows" } {
+			::ttk::setTheme xpnative
+		} else {
+			::ttk::setTheme aqua
+		}
+		variable theme  [set ::ttk::currentTheme]
+		
+		::gui::save_settings
+	}
+    
     proc print_log {msg {tag {}}} {
         if {[winfo exists .middle.log]} {
             .middle.log configure -state normal

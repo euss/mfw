@@ -8,7 +8,7 @@
 # License ("GPL") version 3, as published by the Free Software Foundation.
 #
 
-set ::PS3MFW_VERSION "0.2"
+set ::PS3MFW_VERSION "0.2.1"
 
 # Option --debug: Show verbose debugging information
 # Option --silent: Disable log output
@@ -64,6 +64,14 @@ source [file join ${::PS3MFW_DIR} xml.tcl]
 source [file join ${::PS3MFW_DIR} tar.tcl]
 source [file join ${::PS3MFW_DIR} ps3mfw_base.tcl]
 source [file join ${::PS3MFW_DIR} ps3mfw_tasks.tcl]
+
+set ::xmlang [::xml::LoadFile [file join $::PS3MFW_DIR Settings.xml]]
+
+if {[file exists [::xml::GetData ${::xmlang} "Settings:PS3_KEYS" 0]]} {
+	set ::env(PS3_KEYS) [::xml::GetData ${::xmlang} "Settings:PS3_KEYS" 0]
+} else {
+	set ::env(PS3_KEYS) " "
+}
 
 set ::TASKS_DIR [file join ${::PS3MFW_DIR} tasks]
 
@@ -131,12 +139,20 @@ if {$::options(--build-dir) != ""} {
 	set ::BUILD_DIR $::options(--build-dir)
 } else {
 	if { $::tcl_platform(platform) == "windows" && [info exists ::env(TEMP)]} {
-		set ::BUILD_DIR [file join $::env(TEMP) PS3MFW]
+		if {[file exists [::xml::GetData ${::xmlang} "Settings:BUILD_DIR" 0]]} {
+			set ::BUILD_DIR [::xml::GetData ${::xmlang} "Settings:BUILD_DIR" 0]
+		} else {
+			set ::BUILD_DIR [file join $::env(TEMP) PS3MFW]
+		}
 		if {[catch {file mkdir ${::BUILD_DIR}}]} {
 			set ::BUILD_DIR [pwd]
 		}
 	} elseif {$::tcl_platform(platform) == "unix"} {
-		set ::BUILD_DIR [file join /tmp PS3MFW]
+		if {[file exists [::xml::GetData ${::xmlang} "Settings:BUILD_DIR" 0]]} {
+			set ::BUILD_DIR [::xml::GetData ${::xmlang} "Settings:BUILD_DIR" 0]
+		} else {
+			set ::BUILD_DIR [file join /tmp PS3MFW]
+		}
 		if {[catch {file mkdir ${::BUILD_DIR}}]} {
 			set ::BUILD_DIR [pwd]
 		}
