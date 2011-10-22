@@ -1,0 +1,25 @@
+﻿<Lang>
+	<Options>خيارات</Options>
+	<Tasks>المهام</Tasks>
+	<Browse>تصفح</Browse>
+	<Original_Firmware>الأصلي الثابتة :</Original_Firmware>
+	<Modified_Firmware>تعديل البرامج الثابتة :</Modified_Firmware>
+	<Build_MFW>بناء MFW</Build_MFW>
+	<Quit>استقال</Quit>
+	<Settings>إعدادات</Settings>
+	<About_PS3MFW_Builder>حول منشئ PS3MFW</About_PS3MFW_Builder>
+	<Select_Official_firmware>حدد الرسمية الثابتة</Select_Official_firmware>
+	<Select_Destination_MFW_firmware>حدد الوجهة MFW الثابتة</Select_Destination_MFW_firmware>
+	<Build_MFW>بناء MFW</Build_MFW>
+	<Exit>خروج</Exit>
+	<File>ملف</File>
+	<Theme>موضوع</Theme>
+	<Help>مساعدة</Help>
+	<Language>لغة</Language>
+	<Save_settings>حفظ</Save_settings>
+	<Default_settings>الافتراضي</Default_settings>
+	<PS3MFW_Builder_Settings>PS3MFW منشئ إعدادات</PS3MFW_Builder_Settings>
+	<Configure>تكوين</Configure>
+	<Task_Options>خيارات مهمة</Task_Options>
+	<successfully>تعديل البرامج الثابتة المبنية بنجاح!</successfully>
+</Lang>

@@ -1,10 +1,9 @@
-<Lang>
-
+﻿<Lang>
 	<Options>Opzioni</Options>
 	<Tasks>Tasks</Tasks>
 	<Browse>Sfoglia</Browse>
 	<Original_Firmware>Firmware Ufficiale :</Original_Firmware>
-	<Modified_Firmware>Firmware Modificato:</Modified_Firmware>
+	<Modified_Firmware>Firmware Modificato :</Modified_Firmware>
 	<Build_MFW>Costruisci un MFW</Build_MFW>
 	<Quit>Esci</Quit>
 	<Settings>Impostazioni</Settings>

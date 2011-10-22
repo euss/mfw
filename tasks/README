@@ -16,42 +16,90 @@ Additionally, several new customizations including a firmware version spoofer, a
 
 The new tasks can be found at www.git-hacks.com/ps3mfw
 
-------------------------
-Unofficial 0.2.1 'DanyL'
-------------------------
+------------------------------------------------------------
+Unofficial 0.2.1 'DanyL' (+ translations by euss and others)
+------------------------------------------------------------
 Added in main, options to save settings for:
 - Language, translations added for 
+   - Afrikaans/Suid-Afrikaans
+   - Albanian/Shqip
+   - Arabic/Arabiyyah
+   - Arabic/Arabi (by kaito kid)
+   - Armenian/Hayeren
+   - Azerbaijani/Azeri-Torki
+   - Basque/Euskara
+   - Belarusian/Byelorussian
+   - Bengali/Bangla
+   - Bulgarian/Balgarski-Ezik
+   - Catalan-Valencian/Catala-Valencia
+   - Chinese-simplified/Hanyu-Hans
+   - Chinese-traditional/Hanyu-Hant
+   - Croatian/Hrvatski
    - Czech/Cesky
    - Danish/Danske
    - Dutch/Nederlands
    - English
-   - French/Francaise
+   - Estonian/Eesti-keel
+   - Filipino/Tagalog
+   - Finnish/Suomi
+   - French/Francais (improved by Atilla, Razkar)
    - Fun1/SwedishChef
    - Fun2/Piglatin
    - Fun3/L33t-var2
    - Fun4/L33t-var1
    - Gallic/Galo
+   - Georgian/Kartuli
    - German/Deutsch
-   - Hebrew/Jiddisch
-   - Hungerian/Magyar
+   - Greek/Elinika
+   - Gujarati/Gujarati
+   - Haitian-Creole/Kreyol-Ayisyen
+   - Hebrew/Ivrit (by DanyL)
+   - Hindi-Urdu/Urdu-Nastaliq
+   - Hindustani/Hindi-Devanagari
+   - Hungarian/Magyar
    - Icelandic/Islenska
    - Indonesian/Indonesia
+   - Irish/Gaelic
    - Italian/Italiano
+   - Japanese/Nihongo
+   - Kannada/Canarese
+   - Korean/Hangugeo-Chosonmal
+   - Latin/Latina
+   - Latvian/Latviesu-Valoda
    - Lithuanian/Lietuvos
+   - Macedonian/Makedonski-Jazik
    - Malay/Melayu
+   - Maltese/Malti
    - Norwegian/Norske
+   - Persian/Farsi
    - Polish/Polski
    - Portugese /Portugues
    - Romanian/Roman
+   - Russian/Russkiy
+   - Serbian/Srpski
    - Slovak/Slovaski
    - Slovenian/Slovenski
-   - South-African/Suid-Afrikaans
    - Spanish/Espanol
+   - Swahili/Kiswahili
    - Swedish/Svenska
+   - Tamil/Tamil-Nadu
+   - Telugu/Andhra-Pradesh
+   - Thai/Phasa-Tai
+   - Turkish/Turkce (by Ibocan)
+   - Ukranian/Ukrayinska-Mova
+   - Vietnamese/Viet
+   - Welsh/Cymraeg
+   - Yiddish/Yidish
 - Temp folder
 - PS3_KEYS folder
 - Save/Default for all the settings, including selected/unselected tasks, original/modified firmware paths, theme and so on.
 Keybind added: you can restart PS3MFW Builder by pressing Shift-R.
+
+Translation Guide:
+* The file is in XML UTF-8 format. Make sure you use an UTF-8 compatible editor (e.g. Notepad++)
+* Name the file itself in normal characters only (format is "English name_localised name, e.g. French_Francais.xml and /not/ French_Français.xml !). 
+* Provide a localised translation for each word/line within the XML subitems.
+* Save and try it in PS3MFW Builder. In some cases (e.g. Korean) the characters do not appear in the editor, but /will/ apear inside MFW Builder because of the UTF-8 encoder.
 
 -----------------------------------
 BREAKDOWN OF ALL NEW/EXTENDED TASKS
