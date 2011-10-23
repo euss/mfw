@@ -1,0 +1,3 @@
+[submodule "language"]
+	path = language
+	url = git@github.com:DanyL/PS3MFW-Translations.git
