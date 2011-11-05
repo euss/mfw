@@ -67,10 +67,11 @@ namespace eval ::gui {
     variable padx 2
     variable pady 1
     variable theme  [set ::ttk::currentTheme]
-
+	
     proc create_gui {arguments selected_tasks} {
         variable tasks
-
+		
+		
 		set ::settings [file join $::PS3MFW_DIR Settings.xml]
 		set ::xmlang [::xml::LoadFile $::settings]
 		set ::language [::xml::GetData ${::xmlang} "Settings:language" 0]
@@ -88,7 +89,7 @@ namespace eval ::gui {
 		}
 		close $re		
 		set ::xmllang [::xml::Load $enc_xmllang]
-        
+		
         wm title . "PS3MFW Builder v${::PS3MFW_VERSION}"
         create_menu
 
@@ -98,10 +99,10 @@ namespace eval ::gui {
             bind . <Control-Shift-C> "console show"
         }
 
-        bind . <Shift-R> {exec [info nameofexecutable] & 
+		bind . <Shift-R> {exec [info nameofexecutable] & 
 		exit}
 		
-		hijack_logs
+        hijack_logs
 
         if {[llength $arguments] > 2} {
             wm withdraw .
@@ -275,7 +276,7 @@ namespace eval ::gui {
         incr middle_y -[expr {int($h / 2)}]
         wm geometry .about ${w}x${h}+${middle_x}+${middle_y}
     }
-
+		
     proc add_settings { settings } {
 	
         set icon128 [image create photo -file [file join ${::PS3MFW_DIR} images ps3mfw-icon-128.gif]]
@@ -325,7 +326,7 @@ namespace eval ::gui {
         incr middle_y -[expr {int($h / 2)}]
         wm geometry .settings ${w}x${h}+${middle_x}+${middle_y}
     }
-
+	
     proc populate_themes {themes} {
 
         array set THEMES {
@@ -516,7 +517,7 @@ namespace eval ::gui {
 
         set frame [::ttk::frame $w.$task]
         set check [::ttk::checkbutton $w.$task.check -text [get_task_description $file] -variable ::gui::tasks($task) -onvalue true -offvalue false -command [list ::gui::task_selected $w $task]]
-        set button [::ttk::button $w.$task.button -text "Configure >>" -command [list ::gui::task_selected $w $task]]
+        set button [::ttk::button $w.$task.button -text "[::xml::GetData ${::xmllang} "Lang:Configure" 0] >>" -command [list ::gui::task_selected $w $task]]
         pack $check -side left -expand true -fill x -padx $::gui::padx -pady $::gui::pady
         pack $button -side right -expand false -fill x -padx $::gui::padx -pady $::gui::pady
         pack $frame -side top -expand true -fill x -padx $::gui::padx -pady $::gui::pady -anchor nw
@@ -540,7 +541,7 @@ namespace eval ::gui {
         foreach child [winfo children .middle] {
             destroy $child
         }
-        set labelframe [::ttk::labelframe .middle.task -text "Task Options"]
+        set labelframe [::ttk::labelframe .middle.task -text "[::xml::GetData ${::xmllang} "Lang:Task_Options" 0]"]
         pack $labelframe -expand true -fill both -padx $::gui::padx -pady $::gui::pady
         set scrollframe [scrolledframe::scrolledframe $labelframe.f \
               -yscrollcommand [list ::gui::set_scroll $labelframe.sy] \
@@ -859,8 +860,8 @@ namespace eval ::gui {
 		variable theme  [set ::ttk::currentTheme]
 		
 		::gui::save_settings
-	}
-    
+	}	
+	
     proc print_log {msg {tag {}}} {
         if {[winfo exists .middle.log]} {
             .middle.log configure -state normal
