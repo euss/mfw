@@ -25,14 +25,15 @@ Solution: Needs updated ps3tools (W32 binairies are included in git) or else the
 
 Error: TV category is not shown
 Solution: Make sure either one of these folders exist in /dev_hdd0/game (you can use ftp or manger to create them) :
-- BCES00096
+- BCES00096      = Play TV
 - BCES00274 
 - BCES00275
 - BCED00245
 - BCET00001
-- BCJB95006
-- NPHA70006
-- NPHA80082
+- BCJB95006      = Torne
+- NPHA70006      = QookTV
+- NPHA80082      = NowTV
+Services and region: 3 a la carta (ES), 4oD (GB), ABC iView (AU), ANIMAX (DE, CZ, HU, RO, SK), ANTENA 3 (ES), AXN (BG, CZ, HU, PL, RO, SK), BBC iPlayer (GB), ipla (PL), ITV/STV/UTV Players (GB), LaSexta (ES), NOS (NL), NowTV (HK), Plus 7 (AU), QookTV (HK, KR), RTE Player (IE), RTVE (ES), Torne (HK), TVNZ ONDEMAND (NZ), YLE Areena (FI)
 
 Error: FATAL ERROR: Error extracting PUP file PS3UPDAT.PUP : child killed: unknown signal
 Solution: libz-1.dll is missing (W32 DLL's are included in git)
