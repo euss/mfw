@@ -5,7 +5,7 @@
   /   ____/\____  \  __(__  < /         \ /   __)\   \/\/   / 
  /   /     /       \/        \   /\/\    Y   /    \        /  
 /___/     /________/_________/__/    \___|__/      \__/\__/   
-                                PS3MFW tasks v0.2.1 OtherOS++
+                               PS3MFW tasks v0.2.11 OtherOS++
 ==============================================================
 
 Several exciting new tasks have been created. The most interesting one is a new privacy patch, which keeps PS3 from sending personally identifiable information to many configurable domain names: After jailbreak became available for PS3, reverse engineers discovered that the PS3 collects a multitude of personal information without your knowledge, such as such as your TV model, a list of all usb devices (including product IDs) you ever plugged into your PS3, usage statistics, which games and media you play and more.
@@ -15,6 +15,16 @@ The Digital Millenium Copyright Act (DMCA) specifically allows for consumers to 
 Additionally, several new customizations including a firmware version spoofer, a way to edit the look and sound of the boot sequence by inserting your own coldboot files, and a task to replace the default "Airbush" XMB theme. Now it can also create modified firmwares that can be installed on PS3s with broken Blu-Ray drives as well as create firmwares that can convert demo (kiosk/shop) units into regular retail PS3s! A bug that prevented USB storage devices from being shown under Game Data Utility was fixed.
 
 The new tasks can be found at www.git-hacks.com/ps3mfw
+
+-------------------------------
+Unofficial 0.2.11 update 'euss'
+-------------------------------
+
+- Updated Spoof task up to including 4.11
+- Expanded firmware list up to including 4.11
+- New task made on request:
+  - broken_bluetooth.tcl - Allows you to remove Bluetooth firmware installation so that the MFW can be installed without a working Bluetooth board (circumventing errorcode 0x8002F1F9). This is potentially dangerous if used on a PS3 with a working BT/Wifi board, and should only be used if the BT/Wifi is broken.
+
 
 ------------------------------------------------------------
 Unofficial 0.2.1 'DanyL' (+ translations by euss and others)
