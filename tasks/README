@@ -19,6 +19,9 @@ The new tasks can be found at www.git-hacks.com/ps3mfw
 -------------------------------
 Unofficial 0.2.12 update 'euss'
 -------------------------------
+- Updated Spoof task up to including 4.20
+- Expanded firmware list up to including 4.20
+- New task/proof of concept: Jailbait patches to spoof firmware build & version for SEN/PSN access - Collides/merges several other tasks (e.g. Spoof), so only enable either, not both.
 - Updated patch_emer_init.tcl - more proper size selection with pulldown menu. 1/2, 1/4th, 1/8th, and several fixed sizes like 22GB and 10GB up to 1000GB in 10GB increments can be selected. Warning! only select valid sizes based on your harddrive model, as the task (and the PUP it makes) will NOT be able to check it.
 
 
