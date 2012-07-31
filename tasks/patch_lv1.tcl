@@ -18,6 +18,7 @@
 # Option --patch-lv1-mfc-sr1-mask: Allow to set all bits of SPE register MFC_SR1 with lv1_set_spe_privilege_state_area_1_register
 # Option --patch-lv1-dabr-priv-mask: Allow setting data access breakpoints in hypervisor state with lv1_set_dabr
 # Option --patch-lv1-encdec-ioctl-0x85: Allow ENCDEC IOCTL command 0x85
+# Option --patch-lv1-gpu-4kb-iopage: Allow 4kb IO page size for GPU GART memory
 # Option --patch-lv1-dispmgr-access: Allow access to all SS services (Needed for ps3dm-utils)
 # Option --patch-lv1-iimgr-access: Allow access to all services of Indi Info Manager
 # Option --patch-lv1-um-extract-pkg: Allow extracting for all package types
@@ -29,6 +30,7 @@
 # Option --patch-lv1-gameos-gos-mode-one: Enable GuestOS mode 1 for GameOS
 # Option --patch-lv1-storage-skip-acl-check: Skip ACL checks for all storage devices
 # Option --patch-lv1-otheros-plus-plus: OtherOS++ support
+# Option --patch-lv1-otheros-plus-plus-cold-boot-fix: OtherOS++ cold boot fix
 
 # Type --patch-lv1-mmap: boolean
 # Type --patch-lv1-peek-poke: boolean
@@ -36,6 +38,7 @@
 # Type --patch-lv1-mfc-sr1-mask: boolean
 # Type --patch-lv1-dabr-priv-mask: boolean
 # Type --patch-lv1-encdec-ioctl-0x85: boolean
+# Type --patch-lv1-gpu-4kb-iopage: boolean
 # Type --patch-lv1-dispmgr-access: boolean
 # Type --patch-lv1-iimgr-access: boolean
 # Type --patch-lv1-um-extract-pkg: boolean
@@ -47,6 +50,7 @@
 # Type --patch-lv1-gameos-gos-mode-one: boolean
 # Type --patch-lv1-storage-skip-acl-check: boolean
 # Type --patch-lv1-otheros-plus-plus: boolean
+# Type --patch-lv1-otheros-plus-plus-cold-boot-fix: boolean
 
 namespace eval ::patch_lv1 {
 
@@ -57,6 +61,7 @@ namespace eval ::patch_lv1 {
         --patch-lv1-mfc-sr1-mask true
 	--patch-lv1-dabr-priv-mask true
 	--patch-lv1-encdec-ioctl-0x85 true
+	--patch-lv1-gpu-4kb-iopage false
         --patch-lv1-dispmgr-access true
 	--patch-lv1-iimgr-access true
         --patch-lv1-um-extract-pkg true
@@ -68,6 +73,7 @@ namespace eval ::patch_lv1 {
         --patch-lv1-gameos-gos-mode-one true
 	--patch-lv1-storage-skip-acl-check true
         --patch-lv1-otheros-plus-plus true
+        --patch-lv1-otheros-plus-plus-cold-boot-fix true
     }
 
     proc main { } {
@@ -148,6 +154,16 @@ namespace eval ::patch_lv1 {
             set replace "\x39\x20\x00\x5f"
 
             catch_die {::patch_elf $elf $search 4 $replace} \
+                "Unable to patch self [file tail $elf]"
+	}
+
+        if {$::patch_lv1::options(--patch-lv1-gpu-4kb-iopage)} {
+            log "Patching LV1 hypervisor to allow 4kb IO page size for GPU GART memory"
+
+            set search  "\x6d\x00\x55\x55\x2f\xa9\x00\x00\x68\x00\x55\x55\x39\x20\x00\x00"
+            set replace "\x38\x00\x10\x00"
+
+            catch_die {::patch_elf $elf $search 84 $replace} \
                 "Unable to patch self [file tail $elf]"
 	}
 
@@ -264,7 +280,7 @@ namespace eval ::patch_lv1 {
         }
 
         if {$::patch_lv1::options(--patch-lv1-gameos-gos-mode-one)} {
-            log "Patching LV1 to enable GuestOS mode 1 for GameOS"
+            log "Patching Initial GuestOS Loader to enable GuestOS mode 1 for GameOS"
 
             set search  "\xe9\x29\x00\x00\x2f\xa9\x00\x01\x40\x9e\x00\x18\x38\x60\x00\x00"
             set replace "\x38\x60\x00\x01"
@@ -401,6 +417,16 @@ namespace eval ::patch_lv1 {
             set replace  "\x48\x01\xb6\x1d"
 
             catch_die {::patch_elf $elf $search 28 $replace} \
+                "Unable to patch self [file tail $elf]"
+        }
+
+        if {$::patch_lv1::options(--patch-lv1-otheros-plus-plus-cold-boot-fix)} {
+            log "Patching Initial GuestOS Loader to fix cold boot problem for OtherOS++"
+
+            set search  "\xe9\x29\x00\x00\x2f\xa9\x00\x01\x40\x9e\x00\x18"
+            set replace "\x39\x20\x00\x03"
+
+            catch_die {::patch_elf $elf $search 0 $replace} \
                 "Unable to patch self [file tail $elf]"
         }
     }

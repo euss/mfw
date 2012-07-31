@@ -17,6 +17,14 @@ Additionally, several new customizations including a firmware version spoofer, a
 The new tasks can be found at www.git-hacks.com/ps3mfw
 
 -------------------------------
+Unofficial 0.2.14 update 'euss'
+-------------------------------
+- Added Glevand' Lv1 patches :
+  --patch-lv1-gpu-4kb-iopage: Allow 4kb IO page size for GPU GART memory
+  --patch-lv1-otheros-plus-plus-cold-boot-fix: OtherOS++ cold boot fix
+
+
+-------------------------------
 Unofficial 0.2.13 update 'euss'
 -------------------------------
 - Splitted DEX task for nasplugin.sprx - no need to port lv2 or lv1.
