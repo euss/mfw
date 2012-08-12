@@ -1,9 +1,9 @@
 <Settings>
     <language>English</language>
-	<BUILD_DIR></BUILD_DIR>
-	<PS3_KEYS></PS3_KEYS>
+<BUILD_DIR></BUILD_DIR>
+<PS3_KEYS></PS3_KEYS>
     <Theme>xpnative</Theme>
     <IN_FILE></IN_FILE>
     <OUT_FILE></OUT_FILE>
-	<tasks> add_license_msg change_version patch_category_game</tasks>
+<tasks> add_license_msg change_version patch_category_game</tasks>
 </Settings>
